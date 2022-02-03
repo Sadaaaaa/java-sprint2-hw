@@ -70,33 +70,45 @@ public class Main {
                     if (userInput == 1) {
                         System.out.println("Введите ID задачи, которую хотите обновить:");
                         userInput = scanner.nextInt();
-                        Task oldTask = manager.hashMapTasks.get(userInput);
-                        System.out.println("Введите новое наименование задачи:");
-                        String taskName = scanner.next();
-                        System.out.println("Введите новое описание задачи:");
-                        String taskDescription = scanner.next();
-                        Task newTask = new Task(taskName, taskDescription);
-                        manager.updateTask(oldTask, newTask);
+                        if (manager.hashMapTasks.containsKey(userInput)) {
+                            Task oldTask = manager.hashMapTasks.get(userInput);
+                            System.out.println("Введите новое наименование задачи:");
+                            String taskName = scanner.next();
+                            System.out.println("Введите новое описание задачи:");
+                            String taskDescription = scanner.next();
+                            Task newTask = new Task(taskName, taskDescription);
+                            manager.updateTask(oldTask, newTask);
+                        } else {
+                            System.out.println("Задачи с таким ID не найдено.");
+                        }
                     } else if (userInput == 2) {
                         System.out.println("Введите ID подзадачи, которую хотите обновить:");
                         userInput = scanner.nextInt();
-                        Subtask oldSubtask = manager.hashMapSubtasks.get(userInput);
-                        System.out.println("Введите новое наименование подзадачи:");
-                        String taskName = scanner.next();
-                        System.out.println("Введите новое описание подзадачи:");
-                        String taskDescription = scanner.next();
-                        Subtask newSubtask = new Subtask(taskName, taskDescription);
-                        manager.updateSubtask(oldSubtask, newSubtask);
+                        if (manager.hashMapSubtasks.containsKey(userInput)) {
+                            Subtask oldSubtask = manager.hashMapSubtasks.get(userInput);
+                            System.out.println("Введите новое наименование подзадачи:");
+                            String taskName = scanner.next();
+                            System.out.println("Введите новое описание подзадачи:");
+                            String taskDescription = scanner.next();
+                            Subtask newSubtask = new Subtask(taskName, taskDescription);
+                            manager.updateSubtask(oldSubtask, newSubtask);
+                        } else {
+                            System.out.println("Подзадачи с таким ID не найдено.");
+                        }
                     } else if (userInput == 3) {
                         System.out.println("Введите ID эпика, который хотите обновить:");
                         userInput = scanner.nextInt();
-                        Epic oldEpic = manager.hashMapEpics.get(userInput);
-                        System.out.println("Введите новое наименование эпика:");
-                        String taskName = scanner.next();
-                        System.out.println("Введите новое описание эпика:");
-                        String taskDescription = scanner.next();
-                        Epic newEpic = new Epic(taskName, taskDescription);
-                        manager.updateEpic(oldEpic, newEpic);
+                        if (manager.hashMapEpics.containsKey(userInput)) {
+                            Epic oldEpic = manager.hashMapEpics.get(userInput);
+                            System.out.println("Введите новое наименование эпика:");
+                            String taskName = scanner.next();
+                            System.out.println("Введите новое описание эпика:");
+                            String taskDescription = scanner.next();
+                            Epic newEpic = new Epic(taskName, taskDescription);
+                            manager.updateEpic(oldEpic, newEpic);
+                        } else {
+                            System.out.println("Эпика с таким ID не найдено.");
+                        }
                     } else {
                         System.out.println("Неверный ввод.");
                     }
