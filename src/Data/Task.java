@@ -1,8 +1,10 @@
+package Data;
 
 public class Task {
     String taskName;
     String taskDetails;
     String taskStatus = "NEW";
+    int itemID;
 
     public Task(String taskName, String taskDetails) {
         this.taskName = taskName;
@@ -15,6 +17,14 @@ public class Task {
 
     public void setTaskStatus(String taskStatus) {
         this.taskStatus = taskStatus;
+    }
+
+    public int getItemID() {
+        return itemID;
+    }
+
+    public void setItemID(int itemID) {
+        this.itemID = itemID;
     }
 
     public String toString() {

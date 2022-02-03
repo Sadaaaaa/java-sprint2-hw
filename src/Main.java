@@ -1,3 +1,6 @@
+import Data.Epic;
+import Data.Subtask;
+import Data.Task;
 import java.util.Scanner;
 
 public class Main {
@@ -25,8 +28,10 @@ public class Main {
                         String subTaskName = scanner.next();
                         System.out.println("Введите описание подзадачи:");
                         String subTaskDescription = scanner.next();
+                        System.out.println("Введите ID эпика, к которому относится подзадача:");
+                        int epicID = scanner.nextInt();
                         Subtask subtask = new Subtask(subTaskName, subTaskDescription);
-                        manager.createSubtask(subtask);
+                        manager.createSubtask(subtask, epicID);
                     } else if (userInput == 3) {
                         System.out.println("Введите наименование эпика:");
                         String epicName = scanner.next();
@@ -40,7 +45,21 @@ public class Main {
                 } else if (userInput == 3) {
                     printTaskType();
                     userInput = scanner.nextInt();
-                    manager.statusUpdate(userInput);
+                    if (userInput == 1) {
+                        System.out.println("Введите ID задачи:");
+                        userInput = scanner.nextInt();
+                        printStatus();
+                        int status = scanner.nextInt();
+                        manager.statusUpdate(userInput, status);
+                    } else if (userInput == 2) {
+                        System.out.println("Введите ID подзадачи:");
+                        userInput = scanner.nextInt();
+                        printStatus();
+                        int status = scanner.nextInt();
+                        manager.statusUpdate(userInput, status);
+                    } else if (userInput == 3) {
+                        System.out.println("Извините, статус эпика нельзя менять вручную.");
+                    }
                 } else if (userInput == 4) {
                     System.out.println("Введите ID задачи:");
                     userInput = scanner.nextInt();
@@ -51,30 +70,33 @@ public class Main {
                     if (userInput == 1) {
                         System.out.println("Введите ID задачи, которую хотите обновить:");
                         userInput = scanner.nextInt();
+                        Task oldTask = manager.hashMapTasks.get(userInput);
                         System.out.println("Введите новое наименование задачи:");
                         String taskName = scanner.next();
                         System.out.println("Введите новое описание задачи:");
                         String taskDescription = scanner.next();
-                        Task task = new Task(taskName, taskDescription);
-                        manager.updateTask(userInput, task);
+                        Task newTask = new Task(taskName, taskDescription);
+                        manager.updateTask(oldTask, newTask);
                     } else if (userInput == 2) {
                         System.out.println("Введите ID подзадачи, которую хотите обновить:");
                         userInput = scanner.nextInt();
+                        Subtask oldSubtask = manager.hashMapSubtasks.get(userInput);
                         System.out.println("Введите новое наименование подзадачи:");
                         String taskName = scanner.next();
                         System.out.println("Введите новое описание подзадачи:");
                         String taskDescription = scanner.next();
-                        Subtask subtask = new Subtask(taskName, taskDescription);
-                        manager.updateSubtask(userInput, subtask);
+                        Subtask newSubtask = new Subtask(taskName, taskDescription);
+                        manager.updateSubtask(oldSubtask, newSubtask);
                     } else if (userInput == 3) {
                         System.out.println("Введите ID эпика, который хотите обновить:");
                         userInput = scanner.nextInt();
+                        Epic oldEpic = manager.hashMapEpics.get(userInput);
                         System.out.println("Введите новое наименование эпика:");
                         String taskName = scanner.next();
                         System.out.println("Введите новое описание эпика:");
                         String taskDescription = scanner.next();
-                        Epic epic = new Epic(taskName, taskDescription);
-                        manager.updateEpic(userInput, epic);
+                        Epic newEpic = new Epic(taskName, taskDescription);
+                        manager.updateEpic(oldEpic, newEpic);
                     } else {
                         System.out.println("Неверный ввод.");
                     }
@@ -83,7 +105,9 @@ public class Main {
                     userInput = scanner.nextInt();
                     manager.getTasksByID(userInput);
                 } else if (userInput == 7) {
-                    manager.printSubtasks();
+                    System.out.println("Введите ID эпика:");
+                    userInput = scanner.nextInt();
+                    manager.printSubtasks(userInput);
                 } else if (userInput == 8) {
                     manager.deleteAllTasks();
                 }
@@ -114,5 +138,12 @@ public class Main {
         System.out.println("1 - Задача");
         System.out.println("2 - Подзадача");
         System.out.println("3 - Эпик");
+    }
+
+    private static void printStatus() {
+        System.out.println("Выберите статус:");
+        System.out.println("1 - NEW");
+        System.out.println("2 - IN_PROGRESS");
+        System.out.println("3 - DONE");
     }
 }

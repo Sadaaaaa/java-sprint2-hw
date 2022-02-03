@@ -1,3 +1,5 @@
+package Data;
+
 import java.util.ArrayList;
 
 public class Epic extends Task {
@@ -18,6 +20,8 @@ public class Epic extends Task {
     public void setEpicStatus(String epicStatus) {
         super.taskStatus = epicStatus;
     }
+
+
 
     public String toString() {
         return "Наименование: " + taskName +
