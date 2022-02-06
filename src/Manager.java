@@ -179,37 +179,4 @@ public class Manager {
             }
         }
     }
-
-    // 9. Обновление статусов
-//    public void statusUpdate(int ID, int status) {
-//        if (hashMapTasks.containsKey(ID)) {
-//            Task currentTask = hashMapTasks.get(ID);
-//            if (status == 1) {
-//                currentTask.setTaskStatus("NEW");
-//            } else if (status == 2) {
-//                currentTask.setTaskStatus("IN_PROGRESS");
-//            } else if (status == 3) {
-//                currentTask.setTaskStatus("DONE");
-//            }
-//            System.out.println("Статус задачи выставлен как: " + currentTask.getTaskStatus());
-//        } else if (hashMapSubtasks.containsKey(ID)) {
-//            Subtask currentSubtask = hashMapSubtasks.get(ID);
-//            if (status == 1) {
-//                currentSubtask.setTaskStatus("NEW");
-//                int epicID = currentSubtask.getEpicID();
-//                setStatus(epicID);
-//            } else if (status == 2) {
-//                currentSubtask.setTaskStatus("IN_PROGRESS");
-//                int epicID = currentSubtask.getEpicID();
-//                setStatus(epicID);
-//            } else if (status == 3) {
-//                currentSubtask.setTaskStatus("DONE");
-//                int epicID = currentSubtask.getEpicID();
-//                setStatus(epicID);
-//            }
-//            System.out.println("Статус подзадачи выставлен как: " + currentSubtask.getTaskStatus());
-//        } else {
-//            System.out.println("ID не найден.");
-//        }
-//    }
 }

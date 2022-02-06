@@ -48,24 +48,6 @@ public class Main {
                     }
                 } else if (userInput == 2) {
                     manager.printAllTasks();
-//                } else if (userInput == 3) {
-//                    printTaskType();
-//                    userInput = scanner.nextInt();
-//                    if (userInput == 1) {
-//                        System.out.println("Введите ID задачи:");
-//                        userInput = scanner.nextInt();
-//                        printStatus();
-//                        int status = scanner.nextInt();
-//                        manager.statusUpdate(userInput, status);
-//                    } else if (userInput == 2) {
-//                        System.out.println("Введите ID подзадачи:");
-//                        userInput = scanner.nextInt();
-//                        printStatus();
-//                        int status = scanner.nextInt();
-//                        manager.statusUpdate(userInput, status);
-//                    } else if (userInput == 3) {
-//                        System.out.println("Извините, статус эпика нельзя менять вручную.");
-//                    }
                 } else if (userInput == 3) {
                     System.out.println("Введите ID задачи:");
                     userInput = scanner.nextInt();
