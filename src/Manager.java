@@ -18,11 +18,11 @@ public class Manager {
     HashMap<Integer, Epic> hashMapEpics = new HashMap<>();
 
     //1. Получение списка всех задач.
-    public ArrayList<Object> allTasksList() {
-        ArrayList<Object> allTasks = new ArrayList<>();
-        allTasks.addAll(hashMapTasks.entrySet());
-        allTasks.addAll(hashMapSubtasks.entrySet());
-        allTasks.addAll(hashMapEpics.entrySet());
+    public ArrayList<Task> allTasksList() {
+        ArrayList<Task> allTasks = new ArrayList<>();
+        allTasks.addAll(hashMapTasks.values());
+        allTasks.addAll(hashMapSubtasks.values());
+        allTasks.addAll(hashMapEpics.values());
         return allTasks;
     }
 
