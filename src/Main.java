@@ -2,6 +2,7 @@ import Data.Epic;
 import Data.Subtask;
 import Data.Task;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Main {
@@ -47,7 +48,9 @@ public class Main {
                         manager.createEpic(epic);
                     }
                 } else if (userInput == 2) {
-                    manager.printAllTasks();
+                    for (Object list : manager.allTasksList()) {
+                        System.out.println(list);
+                    }
                 } else if (userInput == 3) {
                     System.out.println("Введите ID задачи:");
                     userInput = scanner.nextInt();
@@ -135,9 +138,21 @@ public class Main {
                         System.out.println("Неверный ввод.");
                     }
                 } else if (userInput == 5) {
-                    System.out.println("Введите ID задачи:");
+                    printTaskType();
                     userInput = scanner.nextInt();
-                    manager.getTasksByID(userInput);
+                    if (userInput == 1) {
+                        System.out.println("Введите ID задачи:");
+                        userInput = scanner.nextInt();
+                        System.out.println(userInput + ". " + manager.getTaskById(userInput).toString());
+                    } else if (userInput == 2) {
+                        System.out.println("Введите ID подзадачи:");
+                        userInput = scanner.nextInt();
+                        System.out.println(userInput + ". " + manager.getSubtaskById(userInput).toString());
+                    } else if (userInput == 3) {
+                        System.out.println("Введите ID эпика:");
+                        userInput = scanner.nextInt();
+                        System.out.println(userInput + ". " + manager.getEpicById(userInput).toString());
+                    }
                 } else if (userInput == 6) {
                     System.out.println("Введите ID эпика:");
                     userInput = scanner.nextInt();

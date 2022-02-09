@@ -18,27 +18,12 @@ public class Manager {
     HashMap<Integer, Epic> hashMapEpics = new HashMap<>();
 
     //1. Получение списка всех задач.
-    public void printAllTasks() {
-        System.out.println("Задачи:");
-        for (Map.Entry<Integer, Task> entry1 : hashMapTasks.entrySet()) {
-            Integer key = entry1.getKey();
-            Task value = entry1.getValue();
-            System.out.println(key + ". " + value.toString());
-        }
-
-        System.out.println("Подзадачи:");
-        for (Map.Entry<Integer, Subtask> entry2 : hashMapSubtasks.entrySet()) {
-            Integer key = entry2.getKey();
-            Subtask value = entry2.getValue();
-            System.out.println(key + ". " + value.toString());
-        }
-
-        System.out.println("Эпики:");
-        for (Map.Entry<Integer, Epic> entry3 : hashMapEpics.entrySet()) {
-            Integer key = entry3.getKey();
-            Epic value = entry3.getValue();
-            System.out.println(key + ". " + value);
-        }
+    public ArrayList<Object> allTasksList() {
+        ArrayList<Object> allTasks = new ArrayList<>();
+        allTasks.addAll(hashMapTasks.entrySet());
+        allTasks.addAll(hashMapSubtasks.entrySet());
+        allTasks.addAll(hashMapEpics.entrySet());
+        return allTasks;
     }
 
     //2. Удаление всех задач.
@@ -50,17 +35,18 @@ public class Manager {
     }
 
     //3. Получение по идентификатору.
-    public void getTasksByID(int userInput) {
-        if (hashMapTasks.containsKey(userInput)) {
-            System.out.println(userInput + ". " + hashMapTasks.get(userInput).toString());
-        } else if (hashMapSubtasks.containsKey(userInput)) {
-            System.out.println(userInput + ". " + hashMapSubtasks.get(userInput).toString());
-        } else if (hashMapEpics.containsKey(userInput)) {
-            System.out.println(userInput + ". " + hashMapEpics.get(userInput).toString());
-        } else {
-            System.out.println("Такой задачи не существует.");
-        }
+    public Task getTaskById(int ID) {
+        return hashMapTasks.get(ID);
     }
+
+    public Subtask getSubtaskById(int ID) {
+        return hashMapSubtasks.get(ID);
+    }
+
+    public Epic getEpicById(int ID) {
+        return hashMapEpics.get(ID);
+    }
+
 
     //4. Создание задач.
     public void createTask(Task task) {
@@ -113,12 +99,8 @@ public class Manager {
     public void updateEpic(Epic newEpic) {
         int ID = newEpic.getItemID();
         ArrayList<Integer> subtaskIDList = hashMapEpics.get(ID).getSubtaskIDList(); // сохранили привязку подзадач и эпика
+        newEpic.setSubtaskIDList(subtaskIDList); // положили в объект newEpic лист с подзадачами
         hashMapEpics.put(ID, newEpic); // положили эпик в hashmap
-
-        for (Integer subtaskID : subtaskIDList) {
-            hashMapEpics.get(ID).setSubtaskIDList(subtaskID); // положили подзадачи в новый эпик
-        }
-
         setStatus(ID); // обновили статус эпика
         System.out.println("Эпик [" + ID + ". " + hashMapEpics.get(ID).toString() + "] обновлен.");
     }
