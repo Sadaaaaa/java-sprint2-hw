@@ -21,8 +21,8 @@ public class Epic extends Task {
         this.subtaskIDList = subtaskIDList;
     }
 
-    public void setEpicStatus(String epicStatus) {
-        super.taskStatus = epicStatus;
+    public void setEpicStatus(StatusList status) {
+        super.taskStatus = status;
     }
 
 

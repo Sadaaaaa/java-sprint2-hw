@@ -1,15 +1,15 @@
 import Data.Epic;
+import Data.StatusList;
 import Data.Subtask;
 import Data.Task;
 
-import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
         System.out.println("Пришло время практики!");
         Scanner scanner = new Scanner(System.in);
-        Manager manager = new Manager();
+        InMemoryTaskManager manager = new InMemoryTaskManager();
 
         printMainMenu();
         try {
@@ -78,11 +78,11 @@ public class Main {
                                 printStatus();
                                 int status = scanner.nextInt();
                                 if (status == 1) {
-                                    updTask.setTaskStatus("NEW");
+                                    updTask.setTaskStatus(StatusList.NEW);
                                 } else if (status == 2) {
-                                    updTask.setTaskStatus("IN_PROGRESS");
+                                    updTask.setTaskStatus(StatusList.IN_PROGRESS);
                                 } else if (status == 3) {
-                                    updTask.setTaskStatus("DONE");
+                                    updTask.setTaskStatus(StatusList.DONE);
                                 }
                                 manager.updateTask(updTask);
                             }
@@ -109,11 +109,11 @@ public class Main {
                                 printStatus();
                                 int status = scanner.nextInt();
                                 if (status == 1) {
-                                    updSubtask.setTaskStatus("NEW");
+                                    updSubtask.setTaskStatus(StatusList.NEW);
                                 } else if (status == 2) {
-                                    updSubtask.setTaskStatus("IN_PROGRESS");
+                                    updSubtask.setTaskStatus(StatusList.IN_PROGRESS);
                                 } else if (status == 3) {
-                                    updSubtask.setTaskStatus("DONE");
+                                    updSubtask.setTaskStatus(StatusList.DONE);
                                 }
                                 manager.updateSubtask(updSubtask);
                             }
@@ -159,6 +159,10 @@ public class Main {
                     manager.printSubtasks(userInput);
                 } else if (userInput == 7) {
                     manager.deleteAllTasks();
+                } else if (userInput == 8) {
+                    for (Task history : manager.historyManager.getHistory()) {
+                        System.out.println(history);
+                    }
                 }
                 printMainMenu(); // печатаем меню ещё раз перед завершением предыдущего действия
                 userInput = scanner.nextInt(); // повторное считывание данных от пользователя
@@ -173,12 +177,12 @@ public class Main {
         System.out.println("Выберите один из пунктов меню:");
         System.out.println("1 - Создать задачу");
         System.out.println("2 - Напечатать список задач");
-//        System.out.println("3 - Изменить статус задачи");
         System.out.println("3 - Удалить задачу");
         System.out.println("4 - Обновить задачу");
         System.out.println("5 - Искать задачу по ID");
         System.out.println("6 - Искать подзадачи определенного эпика");
         System.out.println("7 - Удалить все задачи");
+        System.out.println("8 - Показать историю просмотров");
         System.out.println("0 - Выйти из приложения");
     }
 

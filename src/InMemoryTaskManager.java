@@ -1,4 +1,5 @@
 import Data.Epic;
+import Data.StatusList;
 import Data.Subtask;
 import Data.Task;
 
@@ -6,18 +7,21 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Manager {
+public class InMemoryTaskManager implements TaskManager {
     private int taskID = 1;
-
-    public int generateNewId() {
-        return taskID++;
-    }
 
     HashMap<Integer, Task> hashMapTasks = new HashMap<>();
     HashMap<Integer, Subtask> hashMapSubtasks = new HashMap<>();
     HashMap<Integer, Epic> hashMapEpics = new HashMap<>();
+    HistoryManager historyManager = new InMemoryHistoryManager();
+
+    @Override
+    public int generateNewId() {
+        return taskID++;
+    }
 
     //1. Получение списка всех задач.
+    @Override
     public ArrayList<Task> allTasksList() {
         ArrayList<Task> allTasks = new ArrayList<>();
         allTasks.addAll(hashMapTasks.values());
@@ -27,6 +31,7 @@ public class Manager {
     }
 
     //2. Удаление всех задач.
+    @Override
     public void deleteAllTasks() {
         hashMapTasks.clear();
         hashMapSubtasks.clear();
@@ -35,20 +40,28 @@ public class Manager {
     }
 
     //3. Получение по идентификатору.
+    @Override
     public Task getTaskById(int ID) {
+        historyManager.add(hashMapTasks.get(ID)); // new feature: добавили вызов задачи в историю
         return hashMapTasks.get(ID);
+
     }
 
+    @Override
     public Subtask getSubtaskById(int ID) {
+        historyManager.add(hashMapSubtasks.get(ID)); // new feature: добавили вызов подзадачи в историю
         return hashMapSubtasks.get(ID);
     }
 
+    @Override
     public Epic getEpicById(int ID) {
+        historyManager.add(hashMapEpics.get(ID)); // new feature: добавили вызов эпика в историю
         return hashMapEpics.get(ID);
     }
 
 
     //4. Создание задач.
+    @Override
     public void createTask(Task task) {
         int newID = generateNewId(); // Узнаем ID нового таска
         System.out.println("Задаче присвоен ID: " + newID);
@@ -57,6 +70,7 @@ public class Manager {
         System.out.println("Задача [" + newID + ". " + hashMapTasks.get(newID).toString() + "] создана.");
     }
 
+    @Override
     public void createSubtask(Subtask subtask) {
         int newID = generateNewId(); // Узнаем ID нового сабтаска
         System.out.println("Подзадаче присвоен ID: " + newID);
@@ -68,6 +82,7 @@ public class Manager {
         setStatus(epicID); // обновили статус эпика
     }
 
+    @Override
     public void createEpic(Epic epic) {
         int newID = generateNewId();           // Узнаем ID нового таска
         System.out.println("Эпику присвоен ID: " + newID);
@@ -78,12 +93,14 @@ public class Manager {
 
 
     //5. Обновление.
+    @Override
     public void updateTask(Task newTask) {
         int ID = newTask.getItemID();
         hashMapTasks.put(ID, newTask);
         System.out.println("Задача [" + ID + ". " + hashMapTasks.get(ID).toString() + "] обновлена.");
     }
 
+    @Override
     public void updateSubtask(Subtask newSubtask) {
         int ID = newSubtask.getItemID(); // узнали ID подзадачи, которую необходимо обновить
         int epicID = hashMapSubtasks.get(ID).getEpicID(); // узнали ID эпика, которому принадлежит подзадача
@@ -96,6 +113,7 @@ public class Manager {
         System.out.println("Подзадача [" + ID + ". " + hashMapSubtasks.get(ID).toString() + "] обновлена.");
     }
 
+    @Override
     public void updateEpic(Epic newEpic) {
         int ID = newEpic.getItemID();
         ArrayList<Integer> subtaskIDList = hashMapEpics.get(ID).getSubtaskIDList(); // сохранили привязку подзадач и эпика
@@ -106,6 +124,7 @@ public class Manager {
     }
 
     //6. Удаление по идентификатору.
+    @Override
     public void deleteTaskByID(int ID) {
         if (hashMapTasks.containsKey(ID)) {
             System.out.println("Задача [" + ID + ". " + hashMapTasks.get(ID).toString() + "] удалена.");
@@ -130,6 +149,7 @@ public class Manager {
     }
 
     //7. Получение списка всех подзадач определённого эпика.
+    @Override
     public void printSubtasks(int ID) {
         for (Map.Entry<Integer, Subtask> entry : hashMapSubtasks.entrySet()) {
             Integer key = entry.getKey();
@@ -143,20 +163,21 @@ public class Manager {
     }
 
     //8. Автоматическое обновление статуса эпика
+    @Override
     public void setStatus(int epicID) {
-        ArrayList<String> listOfStatus = new ArrayList<>();
+        ArrayList<StatusList> listOfStatus = new ArrayList<>();
         ArrayList<Integer> listSubtaskID = hashMapEpics.get(epicID).getSubtaskIDList();
         if (listSubtaskID.size() == 0) {
-            hashMapEpics.get(epicID).setEpicStatus("NEW");
+            hashMapEpics.get(epicID).setEpicStatus(StatusList.NEW);
         } else {
             for (Integer ID : listSubtaskID) {
                 listOfStatus.add(hashMapSubtasks.get(ID).getTaskStatus());
-                if (listOfStatus.contains("NEW") && !listOfStatus.contains("IN_PROGRESS") && !listOfStatus.contains("DONE")) {
-                    hashMapEpics.get(epicID).setEpicStatus("NEW");
-                } else if (listOfStatus.contains("DONE") && !listOfStatus.contains("IN_PROGRESS") && !listOfStatus.contains("NEW")) {
-                    hashMapEpics.get(epicID).setEpicStatus("DONE");
+                if (listOfStatus.contains(StatusList.NEW) && !listOfStatus.contains(StatusList.IN_PROGRESS) && !listOfStatus.contains(StatusList.DONE)) {
+                    hashMapEpics.get(epicID).setEpicStatus(StatusList.NEW);
+                } else if (listOfStatus.contains(StatusList.DONE) && !listOfStatus.contains(StatusList.IN_PROGRESS) && !listOfStatus.contains(StatusList.NEW)) {
+                    hashMapEpics.get(epicID).setEpicStatus(StatusList.DONE);
                 } else {
-                    hashMapEpics.get(epicID).setEpicStatus("IN_PROGRESS");
+                    hashMapEpics.get(epicID).setEpicStatus(StatusList.IN_PROGRESS);
                 }
             }
         }

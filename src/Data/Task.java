@@ -3,7 +3,7 @@ package Data;
 public class Task {
     String taskName;
     String taskDetails;
-    String taskStatus = "NEW";
+    StatusList taskStatus = StatusList.NEW;
     int itemID;
 
     public Task(String taskName, String taskDetails) {
@@ -11,12 +11,12 @@ public class Task {
         this.taskDetails = taskDetails;
     }
 
-    public String getTaskStatus() {
+    public StatusList getTaskStatus() {
         return taskStatus;
     }
 
-    public void setTaskStatus(String taskStatus) {
-        this.taskStatus = taskStatus;
+    public void setTaskStatus(StatusList status) {
+        this.taskStatus = status;
     }
 
     public int getItemID() {
