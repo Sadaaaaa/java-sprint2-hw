@@ -2,6 +2,7 @@ import Data.Epic;
 import Data.Subtask;
 import Data.Task;
 import java.util.ArrayList;
+import java.util.List;
 
 public interface TaskManager {
 
@@ -42,5 +43,8 @@ public interface TaskManager {
 
     //8. Автоматическое обновление статуса эпика
     void setStatus(int epicID);
+
+    //9. История просмотра задач
+    List<Task> history();
 }
 

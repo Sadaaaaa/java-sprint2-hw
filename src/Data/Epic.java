@@ -3,7 +3,7 @@ package Data;
 import java.util.ArrayList;
 
 public class Epic extends Task {
-    ArrayList<Integer> subtaskIDList = new ArrayList<>();
+    private ArrayList<Integer> subtaskIDList = new ArrayList<>();
 
     public Epic(String taskName, String taskDetails) {
         super(taskName, taskDetails);
@@ -22,15 +22,15 @@ public class Epic extends Task {
     }
 
     public void setEpicStatus(StatusList status) {
-        super.taskStatus = status;
+        super.setTaskStatus(status);
     }
 
 
 
     public String toString() {
-        return "Наименование: " + taskName +
-                ", Описание: " + taskDetails +
-                ", Статус: " + taskStatus +
+        return "Наименование: " + getTaskName() +
+                ", Описание: " + getTaskDetails() +
+                ", Статус: " + getTaskStatus() +
                 ", Кол-во подзадач:" + getSubtaskIDList().size();
     }
 }

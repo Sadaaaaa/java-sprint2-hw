@@ -5,15 +5,32 @@ import Data.Task;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class InMemoryTaskManager implements TaskManager {
     private int taskID = 1;
 
-    HashMap<Integer, Task> hashMapTasks = new HashMap<>();
-    HashMap<Integer, Subtask> hashMapSubtasks = new HashMap<>();
-    HashMap<Integer, Epic> hashMapEpics = new HashMap<>();
-    HistoryManager historyManager = new InMemoryHistoryManager();
+    private HashMap<Integer, Task> hashMapTasks = new HashMap<>();
+    private HashMap<Integer, Subtask> hashMapSubtasks = new HashMap<>();
+    private HashMap<Integer, Epic> hashMapEpics = new HashMap<>();
+    private HistoryManager historyManager = new InMemoryHistoryManager();
+
+    public HashMap<Integer, Task> getHashMapTasks() {
+        return hashMapTasks;
+    }
+
+    public HashMap<Integer, Subtask> getHashMapSubtasks() {
+        return hashMapSubtasks;
+    }
+
+    public HashMap<Integer, Epic> getHashMapEpics() {
+        return hashMapEpics;
+    }
+
+    public HistoryManager getHistoryManager() {
+        return historyManager;
+    }
 
     @Override
     public int generateNewId() {
@@ -182,4 +199,10 @@ public class InMemoryTaskManager implements TaskManager {
             }
         }
     }
+
+    //9. История просмотра задач
+    public List<Task> history() {
+        return historyManager.getHistory();
+    }
+
 }

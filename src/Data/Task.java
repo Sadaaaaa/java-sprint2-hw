@@ -1,10 +1,19 @@
 package Data;
 
 public class Task {
-    String taskName;
-    String taskDetails;
-    StatusList taskStatus = StatusList.NEW;
-    int itemID;
+    private String taskName;
+    private String taskDetails;
+    private StatusList taskStatus = StatusList.NEW;
+    private int itemID;
+
+
+    public String getTaskName() {
+        return taskName;
+    }
+
+    public String getTaskDetails() {
+        return taskDetails;
+    }
 
     public Task(String taskName, String taskDetails) {
         this.taskName = taskName;

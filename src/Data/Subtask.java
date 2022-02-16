@@ -1,7 +1,7 @@
 package Data;
 
 public class Subtask extends Task {
-    int epicID = 0;
+    private int epicID = 0;
 
     public Subtask(String taskName, String taskDetails) {   // Конструктор класса Data.Subtask
         super(taskName, taskDetails);
@@ -16,9 +16,9 @@ public class Subtask extends Task {
     }
 
     public String toString() {
-        return "Наименование: " + taskName +
-                ", Описание: " + taskDetails +
-                ", Статус: " + taskStatus +
+        return "Наименование: " + getTaskName() +
+                ", Описание: " + getTaskDetails() +
+                ", Статус: " + getTaskStatus() +
                 ", Эпик:" + getEpicID();
     }
 }

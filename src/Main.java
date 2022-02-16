@@ -32,7 +32,7 @@ public class Main {
                         String subTaskDescription = scanner.next();
                         System.out.println("Введите ID эпика, к которому относится подзадача:");
                         int epicID = scanner.nextInt();
-                        if (manager.hashMapEpics.containsKey(epicID)) {
+                        if (manager.getHashMapEpics().containsKey(epicID)) {
                             Subtask subtask = new Subtask(subTaskName, subTaskDescription);
                             subtask.setEpicID(epicID);
                             manager.createSubtask(subtask);
@@ -61,7 +61,7 @@ public class Main {
                     if (userInput == 1) {
                         System.out.println("Введите ID задачи, которую хотите обновить:");
                         userInput = scanner.nextInt();
-                        if (manager.hashMapTasks.containsKey(userInput)) {
+                        if (manager.getHashMapTasks().containsKey(userInput)) {
                             System.out.println("1 - обновить задачу");
                             System.out.println("2 - обновить статус задачи");
                             int input = scanner.nextInt();
@@ -74,7 +74,7 @@ public class Main {
                                 newTask.setItemID(userInput);
                                 manager.updateTask(newTask);
                             } else if (input == 2) {
-                                Task updTask = manager.hashMapTasks.get(userInput);
+                                Task updTask = manager.getHashMapTasks().get(userInput);
                                 printStatus();
                                 int status = scanner.nextInt();
                                 if (status == 1) {
@@ -92,7 +92,7 @@ public class Main {
                     } else if (userInput == 2) {
                         System.out.println("Введите ID подзадачи, которую хотите обновить:");
                         userInput = scanner.nextInt();
-                        if (manager.hashMapSubtasks.containsKey(userInput)) {
+                        if (manager.getHashMapSubtasks().containsKey(userInput)) {
                             System.out.println("1 - обновить задачу");
                             System.out.println("2 - обновить статус подзадачи");
                             int input = scanner.nextInt();
@@ -105,7 +105,7 @@ public class Main {
                                 newSubtask.setItemID(userInput);
                                 manager.updateSubtask(newSubtask);
                             } else if (input == 2) {
-                                Subtask updSubtask = manager.hashMapSubtasks.get(userInput);
+                                Subtask updSubtask = manager.getHashMapSubtasks().get(userInput);
                                 printStatus();
                                 int status = scanner.nextInt();
                                 if (status == 1) {
@@ -123,7 +123,7 @@ public class Main {
                     } else if (userInput == 3) {
                         System.out.println("Введите ID эпика, который хотите обновить:");
                         userInput = scanner.nextInt();
-                        if (manager.hashMapEpics.containsKey(userInput)) {
+                        if (manager.getHashMapEpics().containsKey(userInput)) {
                             System.out.println("Введите новое наименование эпика:");
                             String taskName = scanner.next();
                             System.out.println("Введите новое описание эпика:");
@@ -160,7 +160,7 @@ public class Main {
                 } else if (userInput == 7) {
                     manager.deleteAllTasks();
                 } else if (userInput == 8) {
-                    for (Task history : manager.historyManager.getHistory()) {
+                    for (Task history : manager.history()) {
                         System.out.println(history);
                     }
                 }
