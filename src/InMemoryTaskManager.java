@@ -16,18 +16,6 @@ public class InMemoryTaskManager implements TaskManager {
     private HashMap<Integer, Epic> hashMapEpics = new HashMap<>();
     private HistoryManager historyManager = new InMemoryHistoryManager();
 
-    public HashMap<Integer, Task> getHashMapTasks() {
-        return hashMapTasks;
-    }
-
-    public HashMap<Integer, Subtask> getHashMapSubtasks() {
-        return hashMapSubtasks;
-    }
-
-    public HashMap<Integer, Epic> getHashMapEpics() {
-        return hashMapEpics;
-    }
-
     public HistoryManager getHistoryManager() {
         return historyManager;
     }
@@ -145,9 +133,11 @@ public class InMemoryTaskManager implements TaskManager {
     public void deleteTaskByID(int ID) {
         if (hashMapTasks.containsKey(ID)) {
             System.out.println("Задача [" + ID + ". " + hashMapTasks.get(ID).toString() + "] удалена.");
+            getHistoryManager().remove(ID); //удалили историю вызовов задачи
             hashMapTasks.remove(ID);
         } else if (hashMapSubtasks.containsKey(ID)) {
             System.out.println("Подзадача [" + ID + ". " + hashMapSubtasks.get(ID).toString() + "] удалена.");
+            getHistoryManager().remove(ID); //удалили историю вызовов подзадачи
             int epicID = hashMapSubtasks.get(ID).getEpicID();
             ArrayList<Integer> subtaskIDList = hashMapEpics.get(epicID).getSubtaskIDList();
             subtaskIDList.remove(Integer.valueOf(ID)); // метод удаляет подзадачу из списка, прикрепленного к эпику
@@ -156,7 +146,9 @@ public class InMemoryTaskManager implements TaskManager {
         } else if (hashMapEpics.containsKey(ID)) {
             ArrayList<Integer> subtaskIDList = hashMapEpics.get(ID).getSubtaskIDList(); // получаем лист с подзадачами данного эпика
             System.out.println("Эпик [" + ID + ". " + hashMapEpics.get(ID).toString() + "] удален.");
+            getHistoryManager().remove(ID); //удалили историю вызовов эпика
             for (Integer subtaskID : subtaskIDList) {
+                getHistoryManager().remove(subtaskID); //удалили историю вызовов подзадач данного эпика
                 hashMapSubtasks.remove(subtaskID); // удалили все подзадачи эпика
             }
             hashMapEpics.remove(ID); //удалили эпик
@@ -201,6 +193,7 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     //9. История просмотра задач
+    @Override
     public List<Task> history() {
         return historyManager.getHistory();
     }

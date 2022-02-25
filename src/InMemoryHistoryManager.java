@@ -1,4 +1,5 @@
 import Data.Task;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -7,7 +8,6 @@ import java.util.Map;
 
 public class InMemoryHistoryManager implements HistoryManager {
     private HandMadeLinkedList<Task> historyList = new HandMadeLinkedList<>();
-
 
     @Override
     public void add(Task task) {
@@ -28,11 +28,9 @@ public class InMemoryHistoryManager implements HistoryManager {
     class HandMadeLinkedList<T extends Task> {
         public Node<T> head;
         public Node<T> tail;
-        private int size;
         Map<Integer, Node<T>> nodeHashMap;
 
         HandMadeLinkedList() {
-            this.size = 0;
             this.nodeHashMap = new HashMap<>();
         }
 
@@ -40,15 +38,14 @@ public class InMemoryHistoryManager implements HistoryManager {
             Node<T> oldTail = tail;
             Node<T> newNode = new Node<>(oldTail, task, null);
             tail = newNode;
-            if (oldTail == null)
+            if (oldTail == null) {
                 head = newNode;
-            else
+            } else {
                 oldTail.setNext(newNode);
-            size++;
+            }
 
             if (nodeHashMap.containsKey(task.getItemID())) {
                 remove(task.getItemID());
-                size--;
             }
             nodeHashMap.put(task.getItemID(), newNode);
         }
