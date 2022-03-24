@@ -10,7 +10,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
     private String fileName;
 
     // Новый менеджер получает файл для автосохранения в своём конструкторе и сохраняет его в поле
-    public FileBackedTasksManager(String fileName) throws IOException {
+    public FileBackedTasksManager(String fileName) {
         this.fileName = fileName;
     }
 
@@ -126,7 +126,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
         try (FileWriter fileWriter = new FileWriter(file, true)) {
             fileWriter.write(toStringHistory(getHistoryManager()));
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new ManagerSaveException("Ошибка сохранения в файл");
         }
     }
 
@@ -219,7 +219,6 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
             epic.setItemID(Integer.parseInt(split[0].replaceAll("[^0-9]", "")));
             return epic;
         }
-
     }
 
     // преобразование истории в строку
