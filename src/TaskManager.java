@@ -1,6 +1,8 @@
 import Data.Epic;
 import Data.Subtask;
 import Data.Task;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,7 +24,7 @@ public interface TaskManager {
     Epic getEpicById(int ID);
 
     //4. Создание задач.
-    void createTask(Task task);
+    void createTask(Task task) throws IOException;
 
     void createSubtask(Subtask subtask);
 

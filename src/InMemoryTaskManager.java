@@ -16,6 +16,22 @@ public class InMemoryTaskManager implements TaskManager {
     private HashMap<Integer, Epic> hashMapEpics = new HashMap<>();
     private HistoryManager historyManager = new InMemoryHistoryManager();
 
+    public void setTaskID(int taskID) {
+        this.taskID = taskID;
+    }
+
+    public HashMap<Integer, Task> getHashMapTasks() {
+        return hashMapTasks;
+    }
+
+    public HashMap<Integer, Subtask> getHashMapSubtasks() {
+        return hashMapSubtasks;
+    }
+
+    public HashMap<Integer, Epic> getHashMapEpics() {
+        return hashMapEpics;
+    }
+
     public HistoryManager getHistoryManager() {
         return historyManager;
     }
