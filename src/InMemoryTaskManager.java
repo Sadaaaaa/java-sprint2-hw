@@ -11,24 +11,24 @@ import java.util.Map;
 public class InMemoryTaskManager implements TaskManager {
     private int taskID = 1;
 
-    private HashMap<Integer, Task> hashMapTasks = new HashMap<>();
-    private HashMap<Integer, Subtask> hashMapSubtasks = new HashMap<>();
-    private HashMap<Integer, Epic> hashMapEpics = new HashMap<>();
+    private Map<Integer, Task> hashMapTasks = new HashMap<>();
+    private Map<Integer, Subtask> hashMapSubtasks = new HashMap<>();
+    private Map<Integer, Epic> hashMapEpics = new HashMap<>();
     private HistoryManager historyManager = new InMemoryHistoryManager();
 
     public void setTaskID(int taskID) {
         this.taskID = taskID;
     }
 
-    public HashMap<Integer, Task> getHashMapTasks() {
+    public Map<Integer, Task> getHashMapTasks() {
         return hashMapTasks;
     }
 
-    public HashMap<Integer, Subtask> getHashMapSubtasks() {
+    public Map<Integer, Subtask> getHashMapSubtasks() {
         return hashMapSubtasks;
     }
 
-    public HashMap<Integer, Epic> getHashMapEpics() {
+    public Map<Integer, Epic> getHashMapEpics() {
         return hashMapEpics;
     }
 
@@ -43,8 +43,8 @@ public class InMemoryTaskManager implements TaskManager {
 
     //1. Получение списка всех задач.
     @Override
-    public ArrayList<Task> allTasksList() {
-        ArrayList<Task> allTasks = new ArrayList<>();
+    public List<Task> allTasksList() {
+        List<Task> allTasks = new ArrayList<>();
         allTasks.addAll(hashMapTasks.values());
         allTasks.addAll(hashMapSubtasks.values());
         allTasks.addAll(hashMapEpics.values());
@@ -125,7 +125,7 @@ public class InMemoryTaskManager implements TaskManager {
     public void updateSubtask(Subtask newSubtask) {
         int ID = newSubtask.getItemID(); // узнали ID подзадачи, которую необходимо обновить
         int epicID = hashMapSubtasks.get(ID).getEpicID(); // узнали ID эпика, которому принадлежит подзадача
-        ArrayList<Integer> subtaskIDList = hashMapEpics.get(epicID).getSubtaskIDList();
+        List<Integer> subtaskIDList = hashMapEpics.get(epicID).getSubtaskIDList();
         subtaskIDList.remove(Integer.valueOf(ID)); // метод удаляет подзадачу из списка, прикрепленного к эпику
         hashMapSubtasks.put(ID, newSubtask); // положили подзадачу в hashmap
         newSubtask.setEpicID(epicID); // установили соответствие подзадачи эпику
@@ -137,7 +137,7 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public void updateEpic(Epic newEpic) {
         int ID = newEpic.getItemID();
-        ArrayList<Integer> subtaskIDList = hashMapEpics.get(ID).getSubtaskIDList(); // сохранили привязку подзадач и эпика
+        List<Integer> subtaskIDList = hashMapEpics.get(ID).getSubtaskIDList(); // сохранили привязку подзадач и эпика
         newEpic.setSubtaskIDList(subtaskIDList); // положили в объект newEpic лист с подзадачами
         hashMapEpics.put(ID, newEpic); // положили эпик в hashmap
         setStatus(ID); // обновили статус эпика
@@ -155,12 +155,12 @@ public class InMemoryTaskManager implements TaskManager {
             System.out.println("Подзадача [" + ID + ". " + hashMapSubtasks.get(ID).toString() + "] удалена.");
             getHistoryManager().remove(ID); //удалили историю вызовов подзадачи
             int epicID = hashMapSubtasks.get(ID).getEpicID();
-            ArrayList<Integer> subtaskIDList = hashMapEpics.get(epicID).getSubtaskIDList();
+            List<Integer> subtaskIDList = hashMapEpics.get(epicID).getSubtaskIDList();
             subtaskIDList.remove(Integer.valueOf(ID)); // метод удаляет подзадачу из списка, прикрепленного к эпику
             hashMapSubtasks.remove(ID);
             setStatus(epicID); // добавлено: обновление статуса эпика
         } else if (hashMapEpics.containsKey(ID)) {
-            ArrayList<Integer> subtaskIDList = hashMapEpics.get(ID).getSubtaskIDList(); // получаем лист с подзадачами данного эпика
+            List<Integer> subtaskIDList = hashMapEpics.get(ID).getSubtaskIDList(); // получаем лист с подзадачами данного эпика
             System.out.println("Эпик [" + ID + ". " + hashMapEpics.get(ID).toString() + "] удален.");
             getHistoryManager().remove(ID); //удалили историю вызовов эпика
             for (Integer subtaskID : subtaskIDList) {
@@ -190,8 +190,8 @@ public class InMemoryTaskManager implements TaskManager {
     //8. Автоматическое обновление статуса эпика
     @Override
     public void setStatus(int epicID) {
-        ArrayList<StatusList> listOfStatus = new ArrayList<>();
-        ArrayList<Integer> listSubtaskID = hashMapEpics.get(epicID).getSubtaskIDList();
+        List<StatusList> listOfStatus = new ArrayList<>();
+        List<Integer> listSubtaskID = hashMapEpics.get(epicID).getSubtaskIDList();
         if (listSubtaskID.size() == 0) {
             hashMapEpics.get(epicID).setEpicStatus(StatusList.NEW);
         } else {

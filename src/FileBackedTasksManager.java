@@ -14,9 +14,14 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
         this.fileName = fileName;
     }
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
         // Выгружаем задачи и историю из файла
-        FileBackedTasksManager manager = loadFromFile(new File("C:\\Users\\User\\Desktop\\backup", "backup.csv"));
+        FileBackedTasksManager manager = new FileBackedTasksManager("backup.csv");
+        try {
+            manager = loadFromFile(new File("./src", "backup.csv"));
+        } catch (Exception e) {
+            System.out.println("Нет данных для загрузки.");
+        }
 
         // Создаем задачи
         Task firstTask = new Task("Задача-5", "Описание задачи-5");
@@ -48,13 +53,13 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
         manager.getEpicById(firstEpic.getItemID());
     }
 
-    File file = new File("C:\\Users\\User\\Desktop\\backup", "backup.csv");
+    File file = new File("./src", "backup.csv");
 
     // Метод сохранения задач в файл
     static FileBackedTasksManager loadFromFile(File file) throws IOException {
         FileBackedTasksManager fileBackedTasksManager = new FileBackedTasksManager(file.getName());
 
-        ArrayList<String> lineArray = new ArrayList<>();
+        List<String> lineArray = new ArrayList<>();
         FileReader fileReader = new FileReader(file);
         BufferedReader bufferedReader = new BufferedReader(fileReader);
         String line = bufferedReader.readLine();
@@ -65,7 +70,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
 
         // восстановили из истории значение поля taskID
         for (int i = 0; i < lineArray.size(); i++) {
-            if (lineArray.get(i).isBlank()) {
+            if (lineArray.get(i).isEmpty()) {
                 String[] s = lineArray.get(i - 1).split(",");
                 fileBackedTasksManager.setTaskID(Integer.parseInt(s[0].replaceAll("[^0-9]", "")) + 1);
             }
@@ -107,8 +112,8 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
     // Метод сохранения задач в файл
     void save() {
         // сортировка задач по itemID
-        ArrayList<Task> allTasks = allTasksList();
-        ArrayList<Task> allTasksSorted = allTasksList();
+        List<Task> allTasks = allTasksList();
+        List<Task> allTasksSorted = allTasksList();
         for (Task x : allTasks) {
             allTasksSorted.set(x.getItemID() - 1, x);
         }
@@ -160,15 +165,15 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
         // делим строку с разделителем ","
         String[] split = value.split(",");
 
-        if (split[1].equals("TASK")) {
+        if (split[1].equals(TaskType.TASK.toString())) {
 
             // создаем Task с названием и описанием
             Task task = new Task(split[2], split[4]);
 
             // добавляем статус к Task
-            if (split[3].equals("NEW")) {
+            if (split[3].equals(StatusList.NEW.toString())) {
                 task.setTaskStatus(StatusList.NEW);
-            } else if (split[3].equals("IN_PROGRESS")) {
+            } else if (split[3].equals(StatusList.IN_PROGRESS.toString())) {
                 task.setTaskStatus(StatusList.IN_PROGRESS);
             } else {
                 task.setTaskStatus(StatusList.DONE);
@@ -180,15 +185,15 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
 
             return task;
 
-        } else if (split[1].equals("SUBTASK")) {
+        } else if (split[1].equals(TaskType.SUBTASK.toString())) {
 
             // создаем Subtask с названием и описанием
             Subtask subtask = new Subtask(split[2], split[4]);
 
             // добавляем статус к Subtask
-            if (split[3].equals("NEW")) {
+            if (split[3].equals(StatusList.NEW.toString())) {
                 subtask.setTaskStatus(StatusList.NEW);
-            } else if (split[3].equals("IN_PROGRESS")) {
+            } else if (split[3].equals(StatusList.IN_PROGRESS.toString())) {
                 subtask.setTaskStatus(StatusList.IN_PROGRESS);
             } else {
                 subtask.setTaskStatus(StatusList.DONE);
@@ -207,9 +212,9 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
             Epic epic = new Epic(split[2], split[4]);
 
             // добавляем статус к Epic
-            if (split[3].equals("NEW")) {
+            if (split[3].equals(StatusList.NEW.toString())) {
                 epic.setTaskStatus(StatusList.NEW);
-            } else if (split[3].equals("IN_PROGRESS")) {
+            } else if (split[3].equals(StatusList.IN_PROGRESS.toString())) {
                 epic.setTaskStatus(StatusList.IN_PROGRESS);
             } else {
                 epic.setTaskStatus(StatusList.DONE);
@@ -241,17 +246,17 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
     }
 
     @Override
-    public HashMap<Integer, Task> getHashMapTasks() {
+    public Map<Integer, Task> getHashMapTasks() {
         return super.getHashMapTasks();
     }
 
     @Override
-    public HashMap<Integer, Subtask> getHashMapSubtasks() {
+    public Map<Integer, Subtask> getHashMapSubtasks() {
         return super.getHashMapSubtasks();
     }
 
     @Override
-    public HashMap<Integer, Epic> getHashMapEpics() {
+    public Map<Integer, Epic> getHashMapEpics() {
         return super.getHashMapEpics();
     }
 
@@ -267,7 +272,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
 
     //1. Получение списка всех задач.
     @Override
-    public ArrayList<Task> allTasksList() {
+    public List<Task> allTasksList() {
         return super.allTasksList();
     }
 

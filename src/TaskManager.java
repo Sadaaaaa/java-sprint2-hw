@@ -3,7 +3,6 @@ import Data.Subtask;
 import Data.Task;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 public interface TaskManager {
@@ -11,7 +10,7 @@ public interface TaskManager {
     int generateNewId();
 
     //1. Получение списка всех задач.
-    ArrayList<Task> allTasksList();
+    List<Task> allTasksList();
 
     //2. Удаление всех задач.
     void deleteAllTasks();
