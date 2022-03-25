@@ -5,7 +5,11 @@ public class Task {
     private String taskDetails;
     private StatusList taskStatus = StatusList.NEW;
     private int itemID;
+    private String type = "TASK";
 
+    public String getType() {
+        return type;
+    }
 
     public String getTaskName() {
         return taskName;

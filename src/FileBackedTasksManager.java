@@ -79,9 +79,9 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
         for (int i = 0; i < lineArray.size(); i++) {
             if (!lineArray.get(i).isBlank()) {
                 Task t = fileBackedTasksManager.fromString(lineArray.get(i));
-                if (t.getClass() == Task.class) {
+                if (t.getType().equals(TaskType.TASK.toString())) {
                     fileBackedTasksManager.getHashMapTasks().put(t.getItemID(), t);
-                } else if (t.getClass() == Subtask.class) {
+                } else if (t.getType().equals(TaskType.SUBTASK.toString())) {
                     fileBackedTasksManager.getHashMapSubtasks().put(t.getItemID(), (Subtask) t);
                 } else {
                     fileBackedTasksManager.getHashMapEpics().put(t.getItemID(), (Epic) t);
@@ -95,9 +95,9 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
 
                 // возвращаем историю просмотров из файла в historyManager
                 for (Integer x : fromStringHistory(lineArray.get(i + 1))) {
-                    if (tempHashmap.get(x).getClass() == Task.class) {
+                    if (tempHashmap.get(x).getType().equals(TaskType.TASK.toString())) {
                         fileBackedTasksManager.getTaskById(x);
-                    } else if (tempHashmap.get(x).getClass() == Subtask.class) {
+                    } else if (tempHashmap.get(x).getType().equals(TaskType.SUBTASK.toString())) {
                         fileBackedTasksManager.getSubtaskById(x);
                     } else {
                         fileBackedTasksManager.getEpicById(x);

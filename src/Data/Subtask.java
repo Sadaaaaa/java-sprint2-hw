@@ -2,9 +2,15 @@ package Data;
 
 public class Subtask extends Task {
     private int epicID = 0;
+    private String type = "SUBTASK";
 
     public Subtask(String taskName, String taskDetails) {   // Конструктор класса Data.Subtask
         super(taskName, taskDetails);
+    }
+
+    @Override
+    public String getType() {
+        return type;
     }
 
     public int getEpicID() {    // Геттер для получения принадлежности подзадачи к определенному эпику

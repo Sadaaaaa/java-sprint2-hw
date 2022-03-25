@@ -5,9 +5,15 @@ import java.util.List;
 
 public class Epic extends Task {
     private List<Integer> subtaskIDList = new ArrayList<>();
+    private String type = "EPIC";
 
     public Epic(String taskName, String taskDetails) {
         super(taskName, taskDetails);
+    }
+
+    @Override
+    public String getType() {
+        return type;
     }
 
     public List<Integer> getSubtaskIDList() {
