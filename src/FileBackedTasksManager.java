@@ -338,8 +338,18 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
 
     //6. Удаление задач по идентификатору.
     @Override
-    public void deleteTaskByID(int ID) {
-        super.deleteTaskByID(ID);
+    public void deleteTask(int ID) {
+        super.deleteTask(ID);
+    }
+
+    @Override
+    public void deleteEpic(int ID) {
+        super.deleteEpic(ID);
+    }
+
+    @Override
+    public void deleteSubtask(int ID) {
+        super.deleteSubtask(ID);
     }
 
     //7. Получение списка всех подзадач определённого эпика.

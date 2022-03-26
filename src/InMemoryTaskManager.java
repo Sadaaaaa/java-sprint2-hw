@@ -145,32 +145,31 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     //6. Удаление по идентификатору.
-    @Override
-    public void deleteTaskByID(int ID) {
-        if (hashMapTasks.containsKey(ID)) {
-            System.out.println("Задача [" + ID + ". " + hashMapTasks.get(ID).toString() + "] удалена.");
-            getHistoryManager().remove(ID); //удалили историю вызовов задачи
-            hashMapTasks.remove(ID);
-        } else if (hashMapSubtasks.containsKey(ID)) {
-            System.out.println("Подзадача [" + ID + ". " + hashMapSubtasks.get(ID).toString() + "] удалена.");
-            getHistoryManager().remove(ID); //удалили историю вызовов подзадачи
-            int epicID = hashMapSubtasks.get(ID).getEpicID();
-            List<Integer> subtaskIDList = hashMapEpics.get(epicID).getSubtaskIDList();
-            subtaskIDList.remove(Integer.valueOf(ID)); // метод удаляет подзадачу из списка, прикрепленного к эпику
-            hashMapSubtasks.remove(ID);
-            setStatus(epicID); // добавлено: обновление статуса эпика
-        } else if (hashMapEpics.containsKey(ID)) {
-            List<Integer> subtaskIDList = hashMapEpics.get(ID).getSubtaskIDList(); // получаем лист с подзадачами данного эпика
-            System.out.println("Эпик [" + ID + ". " + hashMapEpics.get(ID).toString() + "] удален.");
-            getHistoryManager().remove(ID); //удалили историю вызовов эпика
-            for (Integer subtaskID : subtaskIDList) {
-                getHistoryManager().remove(subtaskID); //удалили историю вызовов подзадач данного эпика
-                hashMapSubtasks.remove(subtaskID); // удалили все подзадачи эпика
-            }
-            hashMapEpics.remove(ID); //удалили эпик
-        } else {
-            System.out.println("Такой задачи не существует.");
+    public void deleteTask(int ID) {
+        System.out.println("Задача [" + ID + ". " + hashMapTasks.get(ID).toString() + "] удалена.");
+        getHistoryManager().remove(ID); //удалили историю вызовов задачи
+        hashMapTasks.remove(ID);
+    }
+
+    public void deleteEpic(int ID) {
+        List<Integer> subtaskIDList = hashMapEpics.get(ID).getSubtaskIDList(); // получаем лист с подзадачами данного эпика
+        System.out.println("Эпик [" + ID + ". " + hashMapEpics.get(ID).toString() + "] удален.");
+        getHistoryManager().remove(ID); //удалили историю вызовов эпика
+        for (Integer subtaskID : subtaskIDList) {
+            getHistoryManager().remove(subtaskID); //удалили историю вызовов подзадач данного эпика
+            hashMapSubtasks.remove(subtaskID); // удалили все подзадачи эпика
         }
+        hashMapEpics.remove(ID); //удалили эпик
+    }
+
+    public void deleteSubtask(int ID) {
+        System.out.println("Подзадача [" + ID + ". " + hashMapSubtasks.get(ID).toString() + "] удалена.");
+        getHistoryManager().remove(ID); //удалили историю вызовов подзадачи
+        int epicID = hashMapSubtasks.get(ID).getEpicID();
+        List<Integer> subtaskIDList = hashMapEpics.get(epicID).getSubtaskIDList();
+        subtaskIDList.remove(Integer.valueOf(ID)); // метод удаляет подзадачу из списка, прикрепленного к эпику
+        hashMapSubtasks.remove(ID);
+        setStatus(epicID); // добавлено: обновление статуса эпика
     }
 
     //7. Получение списка всех подзадач определённого эпика.

@@ -37,7 +37,11 @@ public interface TaskManager {
     void updateEpic(Epic newEpic);
 
     //6. Удаление по идентификатору.
-    void deleteTaskByID(int ID);
+    void deleteTask(int ID);
+
+    void deleteEpic(int ID);
+
+    void deleteSubtask(int ID);
 
     //7. Получение списка всех подзадач определённого эпика.
     void printSubtasks(int ID);
