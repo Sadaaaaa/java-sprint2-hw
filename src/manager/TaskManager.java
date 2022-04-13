@@ -1,13 +1,18 @@
+package manager;
+
 import Data.Epic;
 import Data.Subtask;
 import Data.Task;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.List;
 
 public interface TaskManager {
 
     int generateNewId();
+
+    LocalDate getEndTime(Task task);
 
     //1. Получение списка всех задач.
     List<Task> allTasksList();
@@ -51,5 +56,14 @@ public interface TaskManager {
 
     //9. История просмотра задач
     List<Task> history();
+
+    //10. Автообновление длительности эпика
+    void updateDuration(int epicID);
+
+    //11. Сортировка задач
+    List<Task> getPrioritizedTasks();
+
+    //12. Поиск пересечений
+    boolean isCrossed(Task task);
 }
 

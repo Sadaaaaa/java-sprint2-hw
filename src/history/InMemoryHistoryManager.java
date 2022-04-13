@@ -1,3 +1,5 @@
+package history;
+
 import Data.Task;
 
 import java.util.ArrayList;
@@ -80,8 +82,10 @@ public class InMemoryHistoryManager implements HistoryManager {
         }
 
         void removeDuplicates(int id) {
-            removeNode(nodeHashMap.get(id));
-            nodeHashMap.remove(id);
+            if(!(nodeHashMap.get(id) == null)) {
+                removeNode(nodeHashMap.get(id));
+                nodeHashMap.remove(id);
+            }
         }
     }
 }
