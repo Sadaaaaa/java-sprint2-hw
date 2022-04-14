@@ -60,10 +60,14 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
         manager.createEpic(secondEpic);
 
         // Запрашиваем созданные задачи несколько раз в разном порядке
-        manager.getTaskById(firstTask.getItemID());
-        manager.getEpicById(secondEpic.getItemID());
-        manager.getSubtaskById(firstSubtask.getItemID());
-        manager.getEpicById(firstEpic.getItemID());
+        try {
+            manager.getTaskById(firstTask.getItemID());
+            manager.getEpicById(secondEpic.getItemID());
+            manager.getSubtaskById(firstSubtask.getItemID());
+            manager.getEpicById(firstEpic.getItemID());
+        } catch (NullPointerException e) {
+            System.out.println("Задачи не были добавлены. Измените startTime.");
+        }
 
         manager.getPrioritizedTasks();
     }
@@ -358,7 +362,6 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
     public Subtask getSubtaskById(int ID) {
         Subtask subtaskCall = super.getSubtaskById(ID);
         save();
-        //return super.getSubtaskById(ID);
         return subtaskCall;
     }
 

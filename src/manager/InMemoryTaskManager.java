@@ -8,7 +8,6 @@ import history.HistoryManager;
 import history.InMemoryHistoryManager;
 
 import java.time.Duration;
-import java.time.Instant;
 import java.time.LocalDate;
 import java.util.*;
 
@@ -23,19 +22,19 @@ public class InMemoryTaskManager implements TaskManager {
     public void setTaskID(int taskID) {
         this.taskID = taskID;
     }
-
+    @Override
     public Map<Integer, Task> getHashMapTasks() {
         return hashMapTasks;
     }
-
+    @Override
     public Map<Integer, Subtask> getHashMapSubtasks() {
         return hashMapSubtasks;
     }
-
+    @Override
     public Map<Integer, Epic> getHashMapEpics() {
         return hashMapEpics;
     }
-
+    @Override
     public HistoryManager getHistoryManager() {
         return historyManager;
     }

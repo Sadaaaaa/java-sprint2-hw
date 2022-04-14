@@ -1,12 +1,7 @@
 package history;
 
 import Data.Task;
-import manager.InMemoryTaskManager;
-import manager.TaskManager;
 import org.junit.jupiter.api.Test;
-
-import java.util.function.Supplier;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 class InMemoryHistoryManagerTest {

@@ -1,53 +1,63 @@
 package manager;
 import Data.Task;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import static org.junit.jupiter.api.Assertions.*;
 
-class FileBackedTasksManagerTest extends TaskManagerTest {
+class FileBackedTasksManagerTest extends TaskManagerTest<FileBackedTasksManager> {
 
+    @BeforeEach
+    void objCreate() {
+        File file = new File("./src", "backup.csv");
+        manager = new FileBackedTasksManager(file.getName());
+    }
+
+    @AfterEach
+    public void objToNull() {
+        manager = null;
+    }
 
     @Test
     public void loadFromFileTest() throws IOException {
         File file = new File("./src", "backup.csv");
-        FileBackedTasksManager fileBackedTasksManager = new FileBackedTasksManager(file.getName());
 
         // загружаем непустой файл
         Task task = new Task("Task", "Task descr");
-        fileBackedTasksManager.createTask(task);
-        fileBackedTasksManager.getTaskById(1);
-        fileBackedTasksManager.save();
+        manager.createTask(task);
+        manager.getTaskById(1);
+        manager.save();
 
-        fileBackedTasksManager = FileBackedTasksManager.loadFromFile(file);
+        manager = FileBackedTasksManager.loadFromFile(file);
 
-        assertEquals(task.toString(), fileBackedTasksManager.allTasksList().get(0).toString());
-        assertEquals(task.toString(), fileBackedTasksManager.getHistoryManager().getHistory().get(0).toString());
+        assertEquals(task.toString(), manager.allTasksList().get(0).toString());
+        assertEquals(task.toString(), manager.getHistoryManager().getHistory().get(0).toString());
 
         // загружаем пустой файл (сначала очищаем его)
         PrintWriter writer = new PrintWriter(file);
         writer.print("");
         writer.close();
 
-        fileBackedTasksManager = FileBackedTasksManager.loadFromFile(file);
-        assertEquals(0, fileBackedTasksManager.allTasksList().size());
-        assertEquals(0, fileBackedTasksManager.getHistoryManager().getHistory().size());
+        manager = FileBackedTasksManager.loadFromFile(file);
+        assertEquals(0, manager.allTasksList().size());
+        assertEquals(0, manager.getHistoryManager().getHistory().size());
     }
 
     @Test
     public void saveTest() throws IOException {
         File file = new File("./src", "backup.csv");
-        FileBackedTasksManager fileBackedTasksManager = new FileBackedTasksManager(file.getName());
 
         // сохраняем непустой файл
         Task task = new Task("Task", "Task descr");
-        fileBackedTasksManager.createTask(task);
+        manager.createTask(task);
 
-        fileBackedTasksManager.getTaskById(task.getItemID());
-        System.out.println(fileBackedTasksManager.getHistoryManager().getHistory());
+        manager.getTaskById(task.getItemID());
+        System.out.println(manager.getHistoryManager().getHistory());
 
-        fileBackedTasksManager.save();
+        manager.save();
         assertEquals(task.toString(), FileBackedTasksManager.loadFromFile(file).allTasksList().get(0).toString());
         assertEquals(task.toString(), FileBackedTasksManager.loadFromFile(file).getHistoryManager().getHistory().get(0).toString());
 
@@ -66,36 +76,30 @@ class FileBackedTasksManagerTest extends TaskManagerTest {
 
     @Test
     public void toStringTest() {
-        File file = new File("./src", "backup.csv");
-        FileBackedTasksManager fileBackedTasksManager = new FileBackedTasksManager(file.getName());
         Task task = new Task("Task", "Task descr");
-        fileBackedTasksManager.createTask(task);
+        manager.createTask(task);
 
-        assertEquals("1,TASK,Task,NEW,Task descr,null,null", fileBackedTasksManager.toString(task).trim());
+        assertEquals("1,TASK,Task,NEW,Task descr,null,null", manager.toString(task).trim());
 
     }
 
     @Test
     public void fromStringTest() {
-        File file = new File("./src", "backup.csv");
-        FileBackedTasksManager fileBackedTasksManager = new FileBackedTasksManager(file.getName());
         Task task = new Task("Task", "Task descr");
-        fileBackedTasksManager.createTask(task);
-        fileBackedTasksManager.getTaskById(1);
+        manager.createTask(task);
+        manager.getTaskById(1);
 
-        String s = FileBackedTasksManager.toStringHistory(fileBackedTasksManager.getHistoryManager());
+        String s = FileBackedTasksManager.toStringHistory(manager.getHistoryManager());
 
         assertEquals("1", s.trim());
     }
 
     @Test
     public void toStringHistoryTest() {
-        File file = new File("./src", "backup.csv");
-        FileBackedTasksManager fileBackedTasksManager = new FileBackedTasksManager(file.getName());
         Task task = new Task("Task", "Task descr");
-        fileBackedTasksManager.createTask(task);
+        manager.createTask(task);
 
-        Task task2 = fileBackedTasksManager.fromString("1,TASK,Task,NEW,Task descr,null,null");
+        Task task2 = manager.fromString("1,TASK,Task,NEW,Task descr,null,null");
 
         assertEquals(task.toString(), task2.toString());
     }
