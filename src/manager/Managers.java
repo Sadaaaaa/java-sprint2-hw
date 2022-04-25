@@ -5,8 +5,8 @@ import history.InMemoryHistoryManager;
 
 public class Managers {
 
-    static TaskManager getDefault() {
-        return new InMemoryTaskManager();
+    static TaskManager getDefault(String url) {
+        return new HTTPTaskManager(url);
     }
 
     static HistoryManager getDefaultHistory() {

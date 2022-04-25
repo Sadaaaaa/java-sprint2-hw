@@ -2,14 +2,13 @@ package Data;
 
 import java.time.Duration;
 import java.time.LocalDate;
-import java.util.Optional;
 
 public class Task {
-    private String taskName;
-    private String taskDetails;
+    protected String taskName;
+    protected String taskDetails;
     private StatusList taskStatus = StatusList.NEW;
     private int itemID;
-    private String type = "TASK";
+    protected String type = "TASK";
     private LocalDate startTime;
     private Duration duration;
 
@@ -17,6 +16,7 @@ public class Task {
         this.taskName = taskName;
         this.taskDetails = taskDetails;
     }
+
 
     public String getType() {
         return type;
@@ -29,13 +29,6 @@ public class Task {
     public String getTaskDetails() {
         return taskDetails;
     }
-
-//    public Task(String taskName, String taskDetails, LocalDate startTime, Duration duration) {
-//        this.taskName = taskName;
-//        this.taskDetails = taskDetails;
-//        this.startTime = startTime;
-//        this.duration = duration;
-//    }
 
     public StatusList getTaskStatus() {
         return taskStatus;

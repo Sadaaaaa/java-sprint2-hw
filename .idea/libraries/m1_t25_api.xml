@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="m1-t25-api">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/../m1-t25-api/lib/gson-2.9.0.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

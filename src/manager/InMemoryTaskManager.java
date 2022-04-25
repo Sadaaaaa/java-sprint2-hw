@@ -306,39 +306,8 @@ public class InMemoryTaskManager implements TaskManager {
         taskSet.addAll(hashMapTasks.values());
         taskSet.addAll(hashMapSubtasks.values());
 
-
-        //        for (Task x : sortedArr) {
-//            System.out.println(x.getItemID() + " " + x.getStartTime());
-//        }
         return new ArrayList<>(taskSet);
 
-
-        //Сортировка пузырьком:
-//        Task temp;
-//        List<Task> sortedArr = allTasksList();
-//        for (int i = 0; i < sortedArr.size(); i++) {
-//            if (sortedArr.get(i).getStartTime() != null) {
-//                for (int j = i + 1; j < sortedArr.size(); j++) {
-//                    if (sortedArr.get(j).getStartTime() != null) {
-//                        if (sortedArr.get(i).getStartTime().isAfter(sortedArr.get(j).getStartTime())) {
-//                            temp = sortedArr.get(i);
-//                            sortedArr.set(i, sortedArr.get(j));
-//                            sortedArr.set(j, temp);
-//                        } else if (sortedArr.get(i).getStartTime().isEqual(sortedArr.get(j).getStartTime())) {
-//                            temp = sortedArr.get(i+1);
-//                            sortedArr.set(i+1, sortedArr.get(j));
-//                            sortedArr.set(j, temp);
-//                        }
-//                    }
-//                }
-//            }
-//        }
-//
-//        for(Task x:sortedArr){
-//            System.out.println(x.getItemID()+" "+x.getStartTime());
-//        }
-//
-//        return sortedArr;
     }
 
     //12. Поиск пересечений

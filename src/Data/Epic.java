@@ -4,16 +4,15 @@ import java.time.Duration;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 public class Epic extends Task {
     private List<Integer> subtaskIDList = new ArrayList<>();
-    private String type = "EPIC";
     private LocalDate endTime;
 
     public Epic(String taskName, String taskDetails) {
         super(taskName, taskDetails);
         setDuration(Duration.ZERO);
+        this.type = "EPIC";
     }
 
     @Override

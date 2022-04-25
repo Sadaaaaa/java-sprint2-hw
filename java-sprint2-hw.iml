@@ -39,5 +39,6 @@
         <SOURCES />
       </library>
     </orderEntry>
+    <orderEntry type="library" name="m1-t25-api" level="project" />
   </component>
 </module>

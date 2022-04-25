@@ -17,7 +17,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
         this.fileName = fileName;
     }
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
         // Выгружаем задачи и историю из файла
         FileBackedTasksManager manager = new FileBackedTasksManager("backup.csv");
         try {
@@ -141,7 +141,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
     }
 
     // Метод сохранения задач в файл
-    void save() {
+    protected void save() {
         // сортировка задач по itemID
         List<Task> allTasks = allTasksList();
         List<Task> allTasksSorted = allTasksList();

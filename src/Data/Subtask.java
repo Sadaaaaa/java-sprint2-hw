@@ -1,20 +1,12 @@
 package Data;
 
-import java.time.Duration;
-import java.time.LocalDate;
-import java.util.Optional;
-
 public class Subtask extends Task {
     private int epicID = 0;
-    private String type = "SUBTASK";
 
     public Subtask(String taskName, String taskDetails) {   // Конструктор класса Data.Subtask
         super(taskName, taskDetails);
+        this.type = "Subtask";
     }
-
-//    public Subtask(String taskName, String taskDetails, LocalDate startTime, Duration duration) {   // Конструктор класса Data.Subtask
-//        super(taskName, taskDetails, startTime, duration);
-//    }
 
     @Override
     public String getType() {
